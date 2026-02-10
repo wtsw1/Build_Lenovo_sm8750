@@ -12,6 +12,7 @@ on:
         options:
           - '6.6.56'
           - '6.6.89'
+          - '6.6.102'
         default: '6.6.89'
 
       custom_kernel_suffix:
@@ -67,6 +68,10 @@ jobs:
               echo "os_patch_level=2025-06" >> $GITHUB_ENV
               echo "releases=ColorOS_16_400_OPD_Boot" >> $GITHUB_ENV
               ;;
+            6.6.102)
+              echo "os_patch_level=2025-10" >> $GITHUB_ENV
+              echo "releases=TB322FC_1.5.10.096" >> $GITHUB_ENV
+              ;;
           esac
            if [ -z "${{ github.event.inputs.custom_kernel_suffix }}" ]; then
             case "${{ github.event.inputs.sub_level }}" in
@@ -75,6 +80,9 @@ jobs:
                 ;;
               6.6.89)
                 echo 'DEFAULT_SUFFIX=-android15-8-g14220ae4ce65-ab13680582-4k' >> $GITHUB_ENV
+                ;;
+              6.6.102)
+                echo 'DEFAULT_SUFFIX=-android15-8-g06bc416365ef-ab14559830-4k' >> $GITHUB_ENV
                 ;;
             esac
           else
@@ -88,6 +96,9 @@ jobs:
                 ;;
               6.6.89)
                 echo 'KERNEL_TIME=Mon Jun 23 07:30:57 UTC 2025' >> $GITHUB_ENV
+                ;;
+              6.6.89)
+                echo 'KERNEL_TIME=Tue Dec 9 15:43:22 UTC 2025' >> $GITHUB_ENV
                 ;;
             esac
           else
