@@ -53,7 +53,7 @@ on:
        
 jobs:
   build:
-    name: Build_${{ env.KERNEL_VERSION }}
+    name: Build_${{ github.event.inputs.KERNEL_VERSION }}
     runs-on: ubuntu-latest
     env:
       gz_branch: 'heads'
