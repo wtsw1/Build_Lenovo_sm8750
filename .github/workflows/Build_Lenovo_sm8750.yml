@@ -205,7 +205,7 @@ jobs:
             ccache -sv
           fi
       - name: 🛠 Set Baseband-guard (配置BBG基带守护)
-        if: ${{ env.ENABLE_BBG}}
+        if: ${{ github.event.inputs.enable_bbg}}
         run: |
           echo "正在启用启用内核级基带保护支持…"
           cd kernel_workspace
@@ -215,7 +215,6 @@ jobs:
 
       
       - name: ⚙️ Set ${{ env.KSU_TYPE }} (设置${{ env.KSU_TYPE }})
-        id: ksu_version
         run: |
             cd kernel_workspace
             echo "正在配置${{ env.KSU_TYPE }}..."
@@ -498,7 +497,7 @@ jobs:
           df -h
 
       - name: 📦 Apply KPM and patch the kernel (应用KPM并修补内核)
-        if: ${{ env.ENABLE_KPM}}
+        if: ${{ github.event.inputs.enable_kpm}}
         run: |
           echo "正在应用KPM并修补内核..."
           cd kernel_workspace/common/out/arch/arm64/boot
@@ -520,7 +519,7 @@ jobs:
          path: kernel_workspace/common/out/arch/arm64/boot/kernel
          
       - name: 📦 Sign boot using AOSP test key (使用AOSP测试密钥签名boot)
-        if: ${{ env.ENABLE_SIGNED}}
+        if: ${{ github.event.inputs.enable_signed}}
         run: |
           cd kernel_workspace
           aria2c -s16 -x16 -k1M "https://github.com/showdo/AOSP-Testkey-BootSigner/archive/refs/heads/main.tar.gz" -o boot_avb_tool.tar.gz && \
@@ -537,7 +536,7 @@ jobs:
           python3 rebuild_avb.py --chained-mode
 
       - name: 📤 Upload Signed boot (上传已签名的 boot)
-        if: ${{ env.ENABLE_SIGNED}}
+        if: ${{ github.event.inputs.enable_signed}}
         uses: actions/upload-artifact@v4
         with:
          name: Boot_${{ env.KSUVER }}_${{ env.KERNEL_VERSION }}_${{ env.KSU_TYPE }}_AOSP_Signed
